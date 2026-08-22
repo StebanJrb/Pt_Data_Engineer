@@ -1,0 +1,4 @@
+logging
+django
+djangorestframework
+mssql-django
