@@ -1,7 +1,8 @@
 # DPDO Tecnical Test
 
 ## Overview
-
+## Database Schema
+![Database](./EschemaDB.png)
 
 
 ## Implementation plan

@@ -2,3 +2,4 @@ logging
 django
 djangorestframework
 mssql-django
+python-dotenv
