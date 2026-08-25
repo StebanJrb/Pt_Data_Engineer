@@ -91,6 +91,15 @@ DATABASES = {
     }
 }
 
+# 'manage.py test' runs against a real, throwaway SQL Server database
+# (test_dpdo by default). DPDO_API models are unmanaged (their tables live in
+# SQL Server, created by SQL_Scripts/*.sql), so Django's own migrate step
+# never creates them there -- this custom runner mirrors dpdo.sql and
+# stored_procedures.sql into the test database right after Django creates it.
+# Requires the DB_USER login to hold the 'dbcreator' server role; see
+# SETUP.md ("Grant permissions for the automated tests").
+TEST_RUNNER = 'DPDO_API.test_runner.SqlServerUnmanagedModelsTestRunner'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
