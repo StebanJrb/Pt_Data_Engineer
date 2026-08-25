@@ -63,7 +63,7 @@ class Employee(models.Model):
 class Registration(models.Model):
     id = models.AutoField(primary_key= True, db_column= 'Id')
     employee = models.ForeignKey(Employee, on_delete= models.DO_NOTHING, db_column= 'EmployeeId')
-    category = models.ForeignKey(Category, on_delete= models.DO_NOTHING, db_column= 'CategotyId')
+    category = models.ForeignKey(Category, on_delete= models.DO_NOTHING, db_column= 'CategoryId')
     registration_date = models.DateTimeField(db_column='RegistrationDate', auto_now_add=True)
 
     class Meta:

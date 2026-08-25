@@ -16,7 +16,7 @@ class BusinessError(Exception):
         self.detail = detail or self.defualt_error_message
 
 #400
-class CityNotAlloweError(BusinessError):
+class CityNotAllowedError(BusinessError):
     status_code = 400
     defualt_error_message = "The employee's city is not enabled for this contest"
 #403
@@ -31,7 +31,7 @@ class CategoryNotFoundError(BusinessError):
     status_code = 404
     defualt_error_message = "The specified category does not exist"
 #409
-class RegistrarionsClosedError(BusinessError):
+class RegistrationsClosedError(BusinessError):
     status_code = 409
     defualt_error_message = "Registrations are alredy closed for this event"
 class DuplicateRegistrationError(BusinessError):

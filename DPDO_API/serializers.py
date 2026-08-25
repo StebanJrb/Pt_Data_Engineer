@@ -7,7 +7,7 @@ from .exceptions import (
     DuplicateRegistrationError, CapacityExceededError,
 )
 class RegistrationCreateSerializer(serializers.Serializer):
-    """POST /api/registrations/"""
+    """POST /api/registrations/create/"""
     employee_id = serializers.IntegerField()
     category_id = serializers.IntegerField()
 
@@ -53,9 +53,21 @@ class RegistrationCreateSerializer(serializers.Serializer):
             raise CapacityExceededError()
 
         return data
-    
+
     def create(self, validated_data):
         return Registration.objects.create(
             employee_id=validated_data['employee_id'],
             category_id=validated_data['category_id'],
         )
+class RegistrationSerializer(serializers.ModelSerializer):
+    """Salida del GET /api/registrations/ con filtros."""
+    employee = serializers.CharField(source='employee.name', read_only=True)
+    city = serializers.CharField(source='employee.city.name', read_only=True)
+    category = serializers.CharField(source='category.name', read_only=True)
+
+    class Meta:
+        model = Registration
+        fields = ['id', 'employee', 'city', 'category', 'registration_date']
+class EventDateSerializer(serializers.Serializer):
+    """'Extra mile': modificar fecha del evento."""
+    date = serializers.DateField()

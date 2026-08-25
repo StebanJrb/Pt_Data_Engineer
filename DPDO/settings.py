@@ -139,5 +139,5 @@ MAILERS = {
 }
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'inscripciones.exceptions.business_exception_handler',
+    'EXCEPTION_HANDLER': 'DPDO_API.exceptions.business_exception_handler',
 }
