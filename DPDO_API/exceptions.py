@@ -10,15 +10,38 @@ class BusinessError(Exception):
         Exception (_type_): _description_
     """
     status_code = 400
-    defualt_error_message = 'Business rule violation'
+    defualt_error_message = "Business rule violation"
 
     def __init__ (self, detail = None):
         self.detail = detail or self.defualt_error_message
 
-""" 
-HTTP REsponeses Maped:
-400: Bad Request: For bad sintaxis or invalid data
-403: Forbiden: for users without permissions
-404: Not Found: Not founded
-409: Conflict: Try to create user alredy registrated
-"""
+#400
+class CityNotAlloweError(BusinessError):
+    status_code = 400
+    defualt_error_message = "The employee's city is not enabled for this contest"
+#403
+class PositionNotAllowedError(BusinessError):
+    status_code = 403
+    defualt_error_message = "Only employees with position Asesor can register"
+#404
+class EmployeeNotFoundError(BusinessError):
+    status_code = 404
+    defualt_error_message = "The specified employee does not exist"
+class CategoryNotFoundError(BusinessError):
+    status_code = 404
+    defualt_error_message = "The specified category does not exist"
+#409
+class RegistrarionsClosedError(BusinessError):
+    status_code = 409
+    defualt_error_message = "Registrations are alredy closed for this event"
+class DuplicateRegistrationError(BusinessError):
+    status_code = 409
+    default_detail = 'This employee is already registered in this category.'
+class CapacityExceededError(BusinessError):
+    status_code = 409
+    default_detail = 'No capacity available in this category.'
+
+def business_exception_handler(exc, context):
+    if isinstance(exc, BusinessError):
+        return Response({'error': exc.detail}, status=exc.status_code)
+    return exception_handler(exc, context)

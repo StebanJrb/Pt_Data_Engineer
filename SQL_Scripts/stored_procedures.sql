@@ -32,7 +32,7 @@ GO
 -- ----------------------------------------------------------------------------
 -- sp_GetRegistrationStatistics
 -- Gives 3 result distinct result set: 
--- 1. inscriptions per employee (advisor), 
+-- 1. inscriptions per employee (Asesor), 
 -- 2. All attempts per unathorized User, 
 -- 3. All attempts refused by duplicated .
 -- ----------------------------------------------------------------------------
