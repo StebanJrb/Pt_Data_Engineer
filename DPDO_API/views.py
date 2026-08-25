@@ -23,15 +23,15 @@ class RegistrationCreateView(APIView):
 
 class RegistrationListView(APIView):
     """GET /api/registrations/?employee=&city=&category=&date=
+    
+    - select_related brings Employee, City and Category in a same query, 
+    avoiding N+1 queris when serializer try to serch them
 
     Args:
         APIView (_type_): _description_
     """
 
     def get(self, request):
-        # select_related trae Employee, City y Category en el mismo query
-        # (JOIN), evitando N+1 queries cuando el serializer acceda a
-        # registration.employee.name, registration.employee.city.name, etc.
         queryset = Registration.objects.select_related(
             'employee', 'employee__city', 'category'
         ).all()
@@ -70,25 +70,39 @@ class CategoryWinnersView(APIView):
 
 
 class StatisticsView(APIView):
-    """GET /api/statistics/ -- delega al SP sp_GetRegistrationStatistics."""
+    """GET /api/statistics/ 
+    - Call SP sp_GetRegistrationStatistics.
+
+    Args:
+        APIView (_type_): _description_
+    """
 
     def get(self, request):
         return Response(procedures.get_registration_statistics(), status=status.HTTP_200_OK)
 
 
 class IsDirector(permissions.BasePermission):
-    """
-    Permiso custom de DRF. Sin un sistema de autenticación completo montado,
-    simplificamos leyendo el rol de un header -- la FORMA (una
-    permission_class declarada en la vista) es la misma que usarías con
-    autenticación real (JWT/sesión + request.user.position).
+    """Custom DRF permission. Without a full authentication system set up,
+    we simplify by reading the role from a header -- the FORM (apermission_class declared in the view) 
+    is the same as you would use with real authentication (JWT/session + request.user.position).
+
+    Args:
+        permissions (_type_): _description_
     """
     def has_permission(self, request, view):
         return request.headers.get('X-Requester-Position') == 'Director'
 
 
 class EventDateUpdateView(APIView):
-    """PATCH /api/event/date/ -- 'extra mile', restringido a Director."""
+    """PATCH /api/event/date/ 
+    'extra mile', Director restringed.
+    
+    Args:
+        APIView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     permission_classes = [IsDirector]
 
     def patch(self, request):

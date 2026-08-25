@@ -2,7 +2,7 @@ from django.db import connection
 
 def get_category_winners(category_id: int):
     with connection.cursor() as cursor:
-        cursor.callproc('sp_GetCategoryWinners', [category_id])
+        cursor.execute("EXEC sp_GetCategoryWinners @CategoryId = %s", [category_id])
         columns = [col[0] for col in cursor.description]
         rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
@@ -13,7 +13,8 @@ def get_category_winners(category_id: int):
 
 def get_registration_statistics():
     with connection.cursor() as cursor:
-        cursor.callproc('sp_GetRegistrationStatistics')
+        cursor.execute("EXEC sp_GetRegistrationStatistics")
+
         registrations_by_advisor = cursor.fetchall()
         columns_1 = [col[0] for col in cursor.description]
 

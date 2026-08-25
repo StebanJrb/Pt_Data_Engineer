@@ -42,6 +42,15 @@ class CapacityExceededError(BusinessError):
     default_detail = 'No capacity available in this category.'
 
 def business_exception_handler(exc, context):
+    """ Exception Handler for all http error responses
+
+    Args:
+        exc (_type_): _description_
+        context (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     if isinstance(exc, BusinessError):
         return Response({'error': exc.detail}, status=exc.status_code)
     return exception_handler(exc, context)

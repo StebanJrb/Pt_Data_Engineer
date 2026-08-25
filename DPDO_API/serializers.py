@@ -7,7 +7,23 @@ from .exceptions import (
     DuplicateRegistrationError, CapacityExceededError,
 )
 class RegistrationCreateSerializer(serializers.Serializer):
-    """POST /api/registrations/create/"""
+    """POST /api/registrations/create/
+
+    Args:
+        serializers (_type_): _description_
+
+    Raises:
+        EmployeeNotFoundError: _description_
+        CategoryNotFoundError: _description_
+        PositionNotAllowedError: _description_
+        CityNotAllowedError: _description_
+        RegistrationsClosedError: _description_
+        DuplicateRegistrationError: _description_
+        CapacityExceededError: _description_
+
+    Returns:
+        _type_: _description_
+    """
     employee_id = serializers.IntegerField()
     category_id = serializers.IntegerField()
 
@@ -60,7 +76,11 @@ class RegistrationCreateSerializer(serializers.Serializer):
             category_id=validated_data['category_id'],
         )
 class RegistrationSerializer(serializers.ModelSerializer):
-    """Salida del GET /api/registrations/ con filtros."""
+    """GET /api/registrations/ with filters
+
+    Args:
+        serializers (_type_): _description_
+    """
     employee = serializers.CharField(source='employee.name', read_only=True)
     city = serializers.CharField(source='employee.city.name', read_only=True)
     category = serializers.CharField(source='category.name', read_only=True)
@@ -69,5 +89,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = Registration
         fields = ['id', 'employee', 'city', 'category', 'registration_date']
 class EventDateSerializer(serializers.Serializer):
-    """'Extra mile': modificar fecha del evento."""
+    """ 'Extra mile': modify date.
+
+    Args:
+        serializers (_type_): _description_
+    """
     date = serializers.DateField()

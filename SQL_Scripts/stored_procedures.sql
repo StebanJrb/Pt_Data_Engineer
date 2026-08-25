@@ -64,3 +64,8 @@ BEGIN
     WHERE RejectionReason = 'DUPLICATE';
 END
 GO
+
+-- WARNING: Here you should especify the user who will excecute the Stored Procedure as showed in SETUP.md, you can uncomment this code with the correct user
+--GRANT EXECUTE ON sp_GetCategoryWinners TO <your_user>;
+--GRANT EXECUTE ON sp_GetRegistrationStatistics TO <your_user>;
+--GO
